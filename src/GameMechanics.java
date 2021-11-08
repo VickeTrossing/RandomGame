@@ -1,10 +1,12 @@
 
+import java.util.Arrays;
 import java.util.Scanner;
 
-public class GameMap {
+public class GameMechanics {
 
     Scanner scan = new Scanner(System.in);
     String[][] game = new String[9][9];
+    Enemy enemy = new Enemy();
 
 
     public void gameMap(){
@@ -36,12 +38,15 @@ public class GameMap {
 
         gameMap();
         String position = "*";
-
+        String enemyChar = "#";
+        String[][] enemyPosition;
         int vertical = 7;
         int horizontal = 1;
 
-        game[vertical][horizontal] = position;
+        //enemy.enemyMove(vertical, horizontal);
 
+
+        game[vertical][horizontal] = position;
 
         for (String[] strings : game) {
             System.out.println();
@@ -56,71 +61,79 @@ public class GameMap {
 
         while (stillPlaying){
 
+            enemyPosition = enemy.enemyMove(vertical, horizontal);
+
+            int enemyVertical;
+            int enemyHorizontal;
+
+            System.out.println("enemy horizontal: " + enemy.getEnemyVertical() + " enemy vertical: " + enemy.getEnemyHorizontal());
+
+            game[enemy.enemyVertical][enemy.enemyHorizontal] = enemyChar;
             String move = scan.nextLine().toLowerCase();
 
-            switch(move){
-                case "w":
+
+            switch (move) {
+                case "w" -> {
                     game[vertical][horizontal] = " ";
-
-                   --vertical;
-
-                    if(vertical == 8 || horizontal == 0 || vertical == 0 || horizontal == 8){
+                    --vertical;
+                    if (winner(vertical, horizontal)) {
+                        stillPlaying = false;
+                        break;
+                    }
+                    if (vertical == 8 || horizontal == 0 || vertical == 0 || horizontal == 8) {
                         System.out.println("That's a wall");
                         ++vertical;
                     }
                     game[vertical][horizontal] = position;
                     movePlayer();
-
-                    break;
-
-                case "s":
-
+                    game[vertical][horizontal] = " ";
+                }
+                case "s" -> {
                     game[vertical][horizontal] = " ";
                     ++vertical;
-                    if(vertical == 8 || horizontal == 0 || vertical == 0 || horizontal == 8){
+                    if (vertical == 8 || horizontal == 0 || vertical == 0 || horizontal == 8) {
                         System.out.println("That's a wall");
                         --vertical;
                     }
                     game[vertical][horizontal] = position;
-
                     movePlayer();
-                    break;
-
-                case "a":
+                }
+                case "a" -> {
                     game[vertical][horizontal] = " ";
                     --horizontal;
-                    if(vertical == 8 || horizontal == 0 || vertical == 0 || horizontal == 8){
+                    if (vertical == 8 || horizontal == 0 || vertical == 0 || horizontal == 8) {
                         System.out.println("That's a wall");
                         ++horizontal;
                     }
                     game[vertical][horizontal] = position;
-
                     movePlayer();
-                    break;
-
-                case "d":
+                }
+                case "d" -> {
                     game[vertical][horizontal] = " ";
                     ++horizontal;
-                    if(vertical == 8 || horizontal == 0 || vertical == 0 || horizontal == 8){
+                    if (vertical == 8 || horizontal == 0 || vertical == 0 || horizontal == 8) {
                         System.out.println("That's a wall");
                         --horizontal;
                     }
                     game[vertical][horizontal] = position;
-
                     movePlayer();
-                    break;
-
-                case "x":
-                    stillPlaying = false;
-                    break;
-
-                default:
+                }
+                case "x" -> stillPlaying = false;
+                default -> {
                     System.out.println("only use 'WASD' to move");
                     movePlayer();
+                }
             }
         }
     }
 
+    public boolean winner(int vertical, int horizontal){
+        if(vertical == 0 && horizontal == 7){
+            System.out.println("You win!");
+            return true;
+        }
+        return false;
+    }
 
     public void movePlayer(){
         for (String[] strings : game) {
