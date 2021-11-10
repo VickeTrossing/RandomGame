@@ -1,5 +1,6 @@
 
 import java.util.Arrays;
+import java.util.Objects;
 import java.util.Scanner;
 
 public class GameMechanics {
@@ -7,34 +8,10 @@ public class GameMechanics {
     Scanner scan = new Scanner(System.in);
     String[][] game = new String[9][9];
     Enemy enemy = new Enemy();
+    FightLogic fight = new FightLogic();
 
 
-    public void gameMap(){
-        for(int i = 0; i < game.length; i++){
-            game[0][i] = "═";
-            game[8][i] = "═";
-            game[i][0] = "║";
-            game[i][8] = "║";
-            game[0][0] = "╔";
-            game[0][8] = "╗";
-            game[8][8] = "╝";
-            game[8][1] = "╔";
-            game[0][7] = "╝";
-            game[0][8] = "║";
-
-        }
-
-        for(int i = 0; i < game.length; i++){
-            for (int j = 0; j < game[i].length; j++){
-                if(game[i][j] == null){
-                    game[i][j] = " ";
-                }
-            }
-        }
-    }
-
-
-    public void updateGame(){
+    public void updateGame() throws InterruptedException {
         gameMap();
 
         String position = "*";
@@ -51,8 +28,6 @@ public class GameMechanics {
                 System.out.print(string);
             }
         }
-
-
 
         boolean stillPlaying = true;
 
@@ -128,6 +103,10 @@ public class GameMechanics {
                     movePlayer();
                 }
             }
+
+            if(Objects.equals(game[vertical][horizontal], game[enemy.enemyVertical][enemy.enemyHorizontal])){
+                fight.fightLogic();
+            }
         }
     }
 
@@ -144,6 +123,30 @@ public class GameMechanics {
             System.out.println();
             for (String string : strings) {
                 System.out.print(string);
+            }
+        }
+    }
+
+    public void gameMap(){
+        for(int i = 0; i < game.length; i++){
+            game[0][i] = "═";
+            game[8][i] = "═";
+            game[i][0] = "║";
+            game[i][8] = "║";
+            game[0][0] = "╔";
+            game[0][8] = "╗";
+            game[8][8] = "╝";
+            game[8][1] = "╔";
+            game[0][7] = "╝";
+            game[0][8] = "║";
+
+        }
+
+        for(int i = 0; i < game.length; i++){
+            for (int j = 0; j < game[i].length; j++){
+                if(game[i][j] == null){
+                    game[i][j] = " ";
+                }
             }
         }
     }
