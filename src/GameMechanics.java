@@ -35,16 +35,13 @@ public class GameMechanics {
 
 
     public void updateGame(){
-
         gameMap();
+
         String position = "*";
         String enemyChar = "#";
-        String[][] enemyPosition;
+
         int vertical = 7;
         int horizontal = 1;
-
-        //enemy.enemyMove(vertical, horizontal);
-
 
         game[vertical][horizontal] = position;
 
@@ -61,14 +58,16 @@ public class GameMechanics {
 
         while (stillPlaying){
 
-            enemyPosition = enemy.enemyMove(vertical, horizontal);
+            game[enemy.enemyVertical][enemy.enemyHorizontal] = " ";
+            enemy.enemyMove(vertical, horizontal);
 
-            int enemyVertical;
-            int enemyHorizontal;
+            System.out.println("Your position: " + vertical + " " + horizontal);
+            System.out.println("Enemy position: " + enemy.enemyVertical + " " + enemy.enemyHorizontal);
 
-            System.out.println("enemy horizontal: " + enemy.getEnemyVertical() + " enemy vertical: " + enemy.getEnemyHorizontal());
+
 
             game[enemy.enemyVertical][enemy.enemyHorizontal] = enemyChar;
+
             String move = scan.nextLine().toLowerCase();
 
 
@@ -88,6 +87,7 @@ public class GameMechanics {
                     movePlayer();
                     game[vertical][horizontal] = " ";
                 }
+
                 case "s" -> {
                     game[vertical][horizontal] = " ";
                     ++vertical;
@@ -98,6 +98,7 @@ public class GameMechanics {
                     game[vertical][horizontal] = position;
                     movePlayer();
                 }
+
                 case "a" -> {
                     game[vertical][horizontal] = " ";
                     --horizontal;
@@ -108,6 +109,7 @@ public class GameMechanics {
                     game[vertical][horizontal] = position;
                     movePlayer();
                 }
+
                 case "d" -> {
                     game[vertical][horizontal] = " ";
                     ++horizontal;
@@ -118,7 +120,9 @@ public class GameMechanics {
                     game[vertical][horizontal] = position;
                     movePlayer();
                 }
+
                 case "x" -> stillPlaying = false;
+
                 default -> {
                     System.out.println("only use 'WASD' to move");
                     movePlayer();
