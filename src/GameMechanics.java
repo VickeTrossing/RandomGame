@@ -1,23 +1,28 @@
 
-import java.util.Arrays;
 import java.util.Objects;
 import java.util.Scanner;
 
 public class GameMechanics {
 
     Scanner scan = new Scanner(System.in);
-    String[][] game = new String[9][9];
+    String[][] game;
     Enemy enemy = new Enemy();
+    int v;
+    int h;
     FightLogic fight = new FightLogic();
+    boolean stillPlaying = true;
+    String position = "*";
+    String enemyChar = "#";
 
 
-    public void updateGame() throws InterruptedException {
+    public void updateGame( int vert, int hori){
+        v = vert;
+        h = hori;
+        game = new String[v][h];
+
         gameMap();
 
-        String position = "*";
-        String enemyChar = "#";
-
-        int vertical = 7;
+        int vertical = vert-2;
         int horizontal = 1;
 
         game[vertical][horizontal] = position;
@@ -29,22 +34,18 @@ public class GameMechanics {
             }
         }
 
-        boolean stillPlaying = true;
-
         while (stillPlaying){
 
             game[enemy.enemyVertical][enemy.enemyHorizontal] = " ";
             enemy.enemyMove(vertical, horizontal);
 
-            System.out.println("Your position: " + vertical + " " + horizontal);
+            //System.out.println("Your position: " + vertical + " " + horizontal);
+
             System.out.println("Enemy position: " + enemy.enemyVertical + " " + enemy.enemyHorizontal);
-
-
 
             game[enemy.enemyVertical][enemy.enemyHorizontal] = enemyChar;
 
             String move = scan.nextLine().toLowerCase();
-
 
             switch (move) {
                 case "w" -> {
@@ -54,7 +55,7 @@ public class GameMechanics {
                         stillPlaying = false;
                         break;
                     }
-                    if (vertical == 8 || horizontal == 0 || vertical == 0 || horizontal == 8) {
+                    if (vertical == 8 || horizontal == 0 || vertical == 0 || horizontal == 17) {
                         System.out.println("That's a wall");
                         ++vertical;
                     }
@@ -66,7 +67,7 @@ public class GameMechanics {
                 case "s" -> {
                     game[vertical][horizontal] = " ";
                     ++vertical;
-                    if (vertical == 8 || horizontal == 0 || vertical == 0 || horizontal == 8) {
+                    if (vertical == 8 || horizontal == 0 || vertical == 0 || horizontal == 17) {
                         System.out.println("That's a wall");
                         --vertical;
                     }
@@ -77,7 +78,7 @@ public class GameMechanics {
                 case "a" -> {
                     game[vertical][horizontal] = " ";
                     --horizontal;
-                    if (vertical == 8 || horizontal == 0 || vertical == 0 || horizontal == 8) {
+                    if (vertical == 8 || horizontal == 0 || vertical == 0 || horizontal == 17) {
                         System.out.println("That's a wall");
                         ++horizontal;
                     }
@@ -88,7 +89,7 @@ public class GameMechanics {
                 case "d" -> {
                     game[vertical][horizontal] = " ";
                     ++horizontal;
-                    if (vertical == 8 || horizontal == 0 || vertical == 0 || horizontal == 8) {
+                    if (vertical == 8 || horizontal == 0 || vertical == 0 || horizontal == 17) {
                         System.out.println("That's a wall");
                         --horizontal;
                     }
@@ -106,17 +107,23 @@ public class GameMechanics {
 
             if(Objects.equals(game[vertical][horizontal], game[enemy.enemyVertical][enemy.enemyHorizontal])){
                 fight.fightLogic();
+                enemy.enemyVertical = h-2;
+                enemy.enemyHorizontal = 1;
+                game[vertical][horizontal] = position;
+                movePlayer();
             }
         }
     }
 
+
     public boolean winner(int vertical, int horizontal){
-        if(vertical == 0 && horizontal == 7){
+        if(vertical == 0 && horizontal == h-2){
             System.out.println("You win!");
             return true;
         }
         return false;
     }
+
 
     public void movePlayer(){
         for (String[] strings : game) {
@@ -127,20 +134,37 @@ public class GameMechanics {
         }
     }
 
+
     public void gameMap(){
+
+        System.out.println("Vertical: " + v);
+        System.out.println("Horizontal: " + h);
+
         for(int i = 0; i < game.length; i++){
-            game[0][i] = "═";
-            game[8][i] = "═";
             game[i][0] = "║";
-            game[i][8] = "║";
-            game[0][0] = "╔";
-            game[0][8] = "╗";
-            game[8][8] = "╝";
-            game[8][1] = "╔";
-            game[0][7] = "╝";
-            game[0][8] = "║";
+            game[i][h-1] = "║";
+            game[0][h-1] = "║";
+            game[v-1][h-1] = "╝";
+            game[0][h-2] = "╝";
 
         }
+
+
+        for(int i = 0; i < h; i++){
+            game[0][i] = "═";
+            game[v-1][i] = "═";
+            game[0][0] = "╔";
+            game[0][h-2] = "╝";
+            game[v-1][h-1] = "╝";
+            game[v-1][1] = "╔";
+            game[v-1][0] = "║";
+            game[0][h-1] = "║";
+        }
+
+
+
+        System.out.println("Vertical: " + v);
+        System.out.println("Horizontal: " + h);
 
         for(int i = 0; i < game.length; i++){
             for (int j = 0; j < game[i].length; j++){

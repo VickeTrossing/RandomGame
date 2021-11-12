@@ -1,21 +1,13 @@
-import java.util.Arrays;
-import java.util.Random;
 
 public class Enemy {
 
     int enemyVertical = 1;
-    int enemyHorizontal = 7;
+    int enemyHorizontal = 1;
 
     int enemyHealth = 100;
     int enemyAttack;
 
     public Enemy(){}
-
-    public Enemy(int enemyHealth, int enemyAttack) {
-        this.enemyHealth = 100;
-        this.enemyAttack = enemyAttack;
-    }
-
 
     public void enemyMove(int vertical, int horizontal) {
 
@@ -32,10 +24,6 @@ public class Enemy {
 
     public int getEnemyHealth() {
         return enemyHealth;
-    }
-
-    public void setEnemyHealth(int enemyHealth) {
-        this.enemyHealth = enemyHealth;
     }
 
     public int getEnemyAttack() {

@@ -1,18 +1,17 @@
-import java.util.Random;
+import java.util.Scanner;
 
 public class Main {
+    public static void main(String[] args) {
 
-    public static void main(String[] args) throws InterruptedException {
+        Scanner scan = new Scanner(System.in);
+
         GameMechanics gameMap = new GameMechanics();
-        FightLogic fight = new FightLogic();
-        Enemy enemy = new Enemy();
 
+        System.out.print("Size of map. Vertical: ");
+        int v = scan.nextInt();
+        System.out.print("Horizontal: ");
+        int h = scan.nextInt();
 
-        System.out.println(enemy.getEnemyHealth());
-
-
-
-        gameMap.updateGame();
-
+        gameMap.updateGame(v, h);
     }
 }
