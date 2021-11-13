@@ -10,7 +10,6 @@ public class Enemy {
     public Enemy(){}
 
     public void enemyMove(int vertical, int horizontal) {
-
         if (enemyHorizontal > horizontal) {
             --enemyHorizontal;
         } else if (enemyVertical > vertical) {

@@ -1,18 +1,23 @@
 
 import java.util.Objects;
+import java.util.Random;
 import java.util.Scanner;
 
 public class GameMechanics {
 
     Scanner scan = new Scanner(System.in);
+    Random random = new Random();
     String[][] game;
     Enemy enemy = new Enemy();
-    int v;
-    int h;
+    Loot loot = new Loot();
     FightLogic fight = new FightLogic();
     boolean stillPlaying = true;
+
+    int v;
+    int h;
     String position = "*";
     String enemyChar = "#";
+    String lootChar = "m";
 
 
     public void updateGame( int vert, int hori){
@@ -21,6 +26,15 @@ public class GameMechanics {
         game = new String[v][h];
 
         gameMap();
+
+        loot.loot();
+
+        int randVertical = random.nextInt(v);
+        int randHorizontal = random.nextInt(h);
+
+        game[randVertical][randHorizontal] = lootChar;
+
+
 
         int vertical = vert-2;
         int horizontal = 1;
@@ -36,12 +50,15 @@ public class GameMechanics {
 
         while (stillPlaying){
 
+            System.out.println("enemy check: " + enemy.enemyVertical +  " " + enemy.enemyHorizontal);
+
             game[enemy.enemyVertical][enemy.enemyHorizontal] = " ";
             enemy.enemyMove(vertical, horizontal);
 
             //System.out.println("Your position: " + vertical + " " + horizontal);
 
             System.out.println("Enemy position: " + enemy.enemyVertical + " " + enemy.enemyHorizontal);
+            System.out.println("Player position: " + vertical + " " + horizontal);
 
             game[enemy.enemyVertical][enemy.enemyHorizontal] = enemyChar;
 
@@ -55,7 +72,7 @@ public class GameMechanics {
                         stillPlaying = false;
                         break;
                     }
-                    if (vertical == 8 || horizontal == 0 || vertical == 0 || horizontal == 17) {
+                    if (vertical == v-1 || horizontal == 0 || vertical == 0 || horizontal == h-1) {
                         System.out.println("That's a wall");
                         ++vertical;
                     }
@@ -67,7 +84,7 @@ public class GameMechanics {
                 case "s" -> {
                     game[vertical][horizontal] = " ";
                     ++vertical;
-                    if (vertical == 8 || horizontal == 0 || vertical == 0 || horizontal == 17) {
+                    if (vertical == v - 1 || horizontal == 0 || horizontal == h - 1) {
                         System.out.println("That's a wall");
                         --vertical;
                     }
@@ -78,7 +95,7 @@ public class GameMechanics {
                 case "a" -> {
                     game[vertical][horizontal] = " ";
                     --horizontal;
-                    if (vertical == 8 || horizontal == 0 || vertical == 0 || horizontal == 17) {
+                    if (vertical == v-1 || horizontal == 0 || vertical == 0 || horizontal == h-1) {
                         System.out.println("That's a wall");
                         ++horizontal;
                     }
@@ -89,7 +106,7 @@ public class GameMechanics {
                 case "d" -> {
                     game[vertical][horizontal] = " ";
                     ++horizontal;
-                    if (vertical == 8 || horizontal == 0 || vertical == 0 || horizontal == 17) {
+                    if (vertical == v - 1 || vertical == 0 || horizontal == h - 1) {
                         System.out.println("That's a wall");
                         --horizontal;
                     }
@@ -105,9 +122,13 @@ public class GameMechanics {
                 }
             }
 
+            if(Objects.equals(game[vertical][horizontal], game[randVertical][randHorizontal])){
+                loot.loot();
+            }
+
             if(Objects.equals(game[vertical][horizontal], game[enemy.enemyVertical][enemy.enemyHorizontal])){
                 fight.fightLogic();
-                enemy.enemyVertical = h-2;
+                enemy.enemyVertical = v-2;
                 enemy.enemyHorizontal = 1;
                 game[vertical][horizontal] = position;
                 movePlayer();
@@ -146,7 +167,6 @@ public class GameMechanics {
             game[0][h-1] = "║";
             game[v-1][h-1] = "╝";
             game[0][h-2] = "╝";
-
         }
 
 
