@@ -12,6 +12,6 @@ public class Main {
         System.out.print("Horizontal: ");
         int h = scan.nextInt();
 
-        gameMap.updateGame(v, h);
+        gameMap.updateGame(v+2, h+2);
     }
 }

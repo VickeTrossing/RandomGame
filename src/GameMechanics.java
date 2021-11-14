@@ -11,6 +11,7 @@ public class GameMechanics {
     Enemy enemy = new Enemy();
     Loot loot = new Loot();
     FightLogic fight = new FightLogic();
+    Player player = new Player();
     boolean stillPlaying = true;
 
     int v;
@@ -26,14 +27,26 @@ public class GameMechanics {
         game = new String[v][h];
 
         gameMap();
-
         loot.loot();
+
 
         int randVertical = random.nextInt(v);
         int randHorizontal = random.nextInt(h);
 
-        game[randVertical][randHorizontal] = lootChar;
+        System.out.println("Random: " + (randVertical-1) + " " + randHorizontal);
 
+
+        if(randVertical == v-1){
+            randVertical = randVertical-1;
+        }else if(randHorizontal == 0){
+            randHorizontal = randVertical +1;
+        }else if(randVertical == 0 ){
+            randVertical = randVertical + 1;
+        }else if(randHorizontal == h-1){
+            randVertical = randVertical - 1;
+        }
+
+        game[randVertical][randHorizontal] = lootChar;
 
 
         int vertical = vert-2;
@@ -48,21 +61,16 @@ public class GameMechanics {
             }
         }
 
+        outerloop:
         while (stillPlaying){
-
-            System.out.println("enemy check: " + enemy.enemyVertical +  " " + enemy.enemyHorizontal);
 
             game[enemy.enemyVertical][enemy.enemyHorizontal] = " ";
             enemy.enemyMove(vertical, horizontal);
 
-            //System.out.println("Your position: " + vertical + " " + horizontal);
-
-            System.out.println("Enemy position: " + enemy.enemyVertical + " " + enemy.enemyHorizontal);
-            System.out.println("Player position: " + vertical + " " + horizontal);
-
             game[enemy.enemyVertical][enemy.enemyHorizontal] = enemyChar;
 
             String move = scan.nextLine().toLowerCase();
+
 
             switch (move) {
                 case "w" -> {
@@ -70,15 +78,13 @@ public class GameMechanics {
                     --vertical;
                     if (winner(vertical, horizontal)) {
                         stillPlaying = false;
-                        break;
+                        break outerloop;
                     }
                     if (vertical == v-1 || horizontal == 0 || vertical == 0 || horizontal == h-1) {
                         System.out.println("That's a wall");
                         ++vertical;
                     }
                     game[vertical][horizontal] = position;
-                    movePlayer();
-                    game[vertical][horizontal] = " ";
                 }
 
                 case "s" -> {
@@ -89,7 +95,6 @@ public class GameMechanics {
                         --vertical;
                     }
                     game[vertical][horizontal] = position;
-                    movePlayer();
                 }
 
                 case "a" -> {
@@ -100,7 +105,6 @@ public class GameMechanics {
                         ++horizontal;
                     }
                     game[vertical][horizontal] = position;
-                    movePlayer();
                 }
 
                 case "d" -> {
@@ -111,15 +115,11 @@ public class GameMechanics {
                         --horizontal;
                     }
                     game[vertical][horizontal] = position;
-                    movePlayer();
                 }
 
                 case "x" -> stillPlaying = false;
 
-                default -> {
-                    System.out.println("only use 'WASD' to move");
-                    movePlayer();
-                }
+                default -> System.out.println("only use 'WASD' to move");
             }
 
             if(Objects.equals(game[vertical][horizontal], game[randVertical][randHorizontal])){
@@ -131,8 +131,12 @@ public class GameMechanics {
                 enemy.enemyVertical = v-2;
                 enemy.enemyHorizontal = 1;
                 game[vertical][horizontal] = position;
-                movePlayer();
             }
+
+            game[(v/2)-2][h-1] = "║" + " Your position: ";
+            game[(v/2)-1][h-1] = "║" + " Vertical: "+ (vertical);
+            game[(v/2)][h-1] = "║" + " Horizontal: " + horizontal;
+            movePlayer();
         }
     }
 
@@ -157,10 +161,6 @@ public class GameMechanics {
 
 
     public void gameMap(){
-
-        System.out.println("Vertical: " + v);
-        System.out.println("Horizontal: " + h);
-
         for(int i = 0; i < game.length; i++){
             game[i][0] = "║";
             game[i][h-1] = "║";
@@ -168,7 +168,6 @@ public class GameMechanics {
             game[v-1][h-1] = "╝";
             game[0][h-2] = "╝";
         }
-
 
         for(int i = 0; i < h; i++){
             game[0][i] = "═";
@@ -181,11 +180,6 @@ public class GameMechanics {
             game[0][h-1] = "║";
         }
 
-
-
-        System.out.println("Vertical: " + v);
-        System.out.println("Horizontal: " + h);
-
         for(int i = 0; i < game.length; i++){
             for (int j = 0; j < game[i].length; j++){
                 if(game[i][j] == null){
@@ -193,5 +187,9 @@ public class GameMechanics {
                 }
             }
         }
+
+        game[(v/2)-2][h-1] = "║" + " Your position: ";
+        game[(v/2)-1][h-1] = "║" + " Vertical: "+ (v-2);
+        game[(v/2)][h-1] = "║" + " Horizontal: " + 1;
     }
 }

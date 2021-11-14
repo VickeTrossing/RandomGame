@@ -9,6 +9,5 @@ public class Loot {
         int extraAttack = random.nextInt(19)+1;
         player.setPlayerAttack(player.getPlayerAttack()+extraAttack);
         System.out.println("You found loot! You're attack grows by: " + extraAttack + " points!");
-
     }
 }
