@@ -27,16 +27,12 @@ public class GameMechanics {
         game = new String[v][h];
         Menu menu = new Menu();
 
-        //gameMap();
         game = mapGenerator.generateMap(game, v, h, stats);
 
         //Random ints for the loot chest, based on the height and width of the map
         int randVertical = random.nextInt(v);
         int randHorizontal = random.nextInt(h-stats-2);
 
-
-
-        //System.out.println("loot position: " + randVertical +  " " + randHorizontal);
         randVertical = randVertical + checkWallsForLoot(randVertical, randHorizontal);
         randHorizontal = randHorizontal + checkWallsForLoot(randVertical, randHorizontal);
 
@@ -56,6 +52,16 @@ public class GameMechanics {
             enemy.enemyMove(vertical, horizontal);
 
             game[enemy.enemyVertical][enemy.enemyHorizontal] = enemyChar;
+            System.out.println();
+            System.out.print("Your move: ");
+
+            if (Objects.equals(game[vertical][horizontal], game[enemy.enemyVertical][enemy.enemyHorizontal])) {
+                fight.fightLogic();
+                enemy.enemyVertical = v - 2;
+                enemy.enemyHorizontal = 1;
+                game[vertical][horizontal] = position;
+                movePlayer();
+            }
 
             String move = scan.nextLine().toLowerCase();
 
@@ -112,13 +118,6 @@ public class GameMechanics {
                 loot.loot();
             }
 
-            if (Objects.equals(game[vertical][horizontal], game[enemy.enemyVertical][enemy.enemyHorizontal])) {
-                fight.fightLogic();
-                enemy.enemyVertical = v - 2;
-                enemy.enemyHorizontal = 1;
-                game[vertical][horizontal] = position;
-            }
-
             playerSats(vertical, horizontal);
 
             if (Objects.equals(game[vertical][horizontal], game[randVertical][randHorizontal])) {
@@ -133,9 +132,19 @@ public class GameMechanics {
 
 
     public void playerSats(int vertical, int horizontal){
-        game[(v / 2) - 3][h -  stats] = " Your position: " + " ║";
-        game[(v / 2) - 1][h - stats] = " Vertical: " + vertical + "     ║";
-        game[(v / 2)][h - stats] = " Horizontal: " + horizontal + "   ║";
+        game[1][h -  stats] = " Your position: " + " ║";
+
+        if(vertical >= 10){
+            game[3][h - stats] = " Vertical: " + vertical + "    ║";
+        }else{
+            game[3][h - stats] = " Vertical: " + vertical + "     ║";
+        }
+
+        if(horizontal >= 10){
+            game[4][h - stats] = " Horizontal: " + horizontal + "  ║";
+        }else{
+            game[4][h - stats] = " Horizontal: " + horizontal + "   ║";
+        }
     }
 
 
