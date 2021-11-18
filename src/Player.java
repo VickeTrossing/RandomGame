@@ -10,9 +10,9 @@ public class Player {
         return playerHealth;
     }
 
-    /*public void setPlayerHealth(int playerHealth) {
-        this.playerHealth = playerHealth;
-    }*/
+    //public void setPlayerHealth(int playerHealth) {
+    //     this.playerHealth = playerHealth;
+    // }
 
     public int getPlayerAttack() {
         return playerAttack;
