@@ -20,7 +20,7 @@ public class MapGenerator {
 
         for(int i = 0; i < mapArray.length; i++){
             mapArray[i][h-hStats-1] = "║";
-            if(i == 1 || i == 3 || i == 4){
+            if(i == 1 || i == 3 || i == 4 || i == 5){
                 continue;
             }
             mapArray[i][h-1] = "║";
@@ -33,7 +33,8 @@ public class MapGenerator {
             mapArray[0][h-hStats-1] = "╔";
             mapArray[v-1][h-1] = "╝";
             mapArray[0][h-1] = "╗";
-            mapArray[0][h-hStats-2] = "╗";
+            mapArray[0][h-hStats-2] = "║";
+            mapArray[0][h-hStats-3] = "╝";
             mapArray[v - 1][h-hStats-2] = "╝";
             mapArray[2][h-hStats-1] = "╠";
             mapArray[2][i] = "═";

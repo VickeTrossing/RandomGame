@@ -69,10 +69,14 @@ public class GameMechanics {
                 case "w" -> {
                     game[vertical][horizontal] = " ";
                     --vertical;
+
+
                     if (winner(vertical, horizontal)) {
                         menu.menu();
                     }
-                    if (vertical == v - 1 || horizontal == 0 || vertical == 0 || horizontal == h - stats-1) {
+                    if(vertical == 0 && horizontal == h-stats-2){
+                        game[vertical][horizontal] = position;
+                    } else if (vertical == v - 1 || horizontal == 0 || vertical == 0 || horizontal == h - stats-1) {
                         System.out.println("That's a wall");
                         ++vertical;
                     }
@@ -82,7 +86,8 @@ public class GameMechanics {
                 case "s" -> {
                     game[vertical][horizontal] = " ";
                     ++vertical;
-                    if (vertical == v - 1 || horizontal == 0 || horizontal == h - 1) {
+
+                     if (vertical == v - 1 || horizontal == 0 || horizontal == h - 1) {
                         System.out.println("That's a wall");
                         --vertical;
                     }
@@ -145,11 +150,13 @@ public class GameMechanics {
         }else{
             game[4][h - stats] = " Horizontal: " + horizontal + "   ║";
         }
+
+        game[5][h - stats] = " Weapon: " + vertical + "     ║";
     }
 
 
     public boolean winner(int vertical, int horizontal) {
-        if (vertical == 0 && horizontal == h - 2) {
+        if (vertical == 0 && horizontal == h-stats-2) {
             System.out.println("You win!");
             return true;
         }
