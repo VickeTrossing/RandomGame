@@ -12,6 +12,8 @@ public class GameMechanics {
     Loot loot = new Loot();
     FightLogic fight = new FightLogic();
     MapGenerator mapGenerator = new MapGenerator();
+    Player player1 = new Player();
+    Weapon ref = Weapon.getInstance();
 
     int v;
     int h;
@@ -26,6 +28,10 @@ public class GameMechanics {
         h = horizontalInput+stats;
         game = new String[v][h];
         Menu menu = new Menu();
+        ref.weaponArray();
+
+
+        //player1.setWeaponName(ref.weapons.get(0).getWeaponName());
 
         game = mapGenerator.generateMap(game, v, h, stats);
 
@@ -48,6 +54,7 @@ public class GameMechanics {
         movePlayer();
 
         while (stillPlaying) {
+            System.out.println("weapon1: " + player1.getWeaponName());
             game[enemy.enemyVertical][enemy.enemyHorizontal] = " ";
             enemy.enemyMove(vertical, horizontal);
 
@@ -120,7 +127,7 @@ public class GameMechanics {
             }
 
             if (Objects.equals(game[vertical][horizontal], game[randVertical][randHorizontal])) {
-                loot.loot();
+                loot.loot(player1);
             }
 
             playerSats(vertical, horizontal);
@@ -128,7 +135,8 @@ public class GameMechanics {
             if (Objects.equals(game[vertical][horizontal], game[randVertical][randHorizontal])) {
                 movePlayer();
                 System.out.println();
-                loot.loot();
+                loot.loot(player1);
+                //System.out.println(loot.player.getWeaponName());
             } else {
                 movePlayer();
             }
@@ -151,7 +159,7 @@ public class GameMechanics {
             game[4][h - stats] = " Horizontal: " + horizontal + "   ║";
         }
 
-        game[5][h - stats] = " Weapon: " + vertical + "     ║";
+        game[5][h - stats] = " Weapon: " + player1.getWeaponName() + "     ║";
     }
 
 

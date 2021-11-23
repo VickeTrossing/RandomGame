@@ -7,6 +7,7 @@ public class FightLogic {
     Scanner scan = new Scanner(System.in);
 
 
+
     Player player = new Player();
      Enemy enemy = new Enemy();
 
@@ -23,7 +24,7 @@ public class FightLogic {
         while(true){
 
             enemy.setEnemyAttack(random.nextInt(9));
-            player.setPlayerAttack(random.nextInt(19));
+           // player.setPlayerAttack(random.nextInt(19));
             int enemyAttack = enemy.getEnemyAttack();
             int playerAttack = player.getPlayerAttack();
 

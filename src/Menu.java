@@ -8,6 +8,7 @@ public class Menu {
     MapGenerator mapGenerator = new MapGenerator();
     int vertical = 8;
     int horizontal = 17;
+    Player player = new Player();
 
     public void menu(){
 
