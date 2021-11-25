@@ -8,28 +8,41 @@ public class Loot {
     Weapon refWeapon = Weapon.getInstance();
 
     public void loot(Player player){
-        int randomNumber = random.nextInt(100);
+        int randomNumber = random.nextInt(10);
+        System.out.println("Random number: " + randomNumber);
         refWeapon.weaponArray();
 
-        if(randomNumber <= 50){
+        if(randomNumber <= 6){
+
             int extraAttack = random.nextInt(19)+1;
             player.setPlayerAttack(player.getPlayerAttack()+extraAttack);
-            System.out.println("You found loot! You're attack grows by: " + extraAttack + " points!");
-        }else if(randomNumber >= 50 && randomNumber <= 75){
+            System.out.println("You found loot! Your attack grows by: " + extraAttack + " points!");
 
-
-            for (int i = 0; i < refWeapon.weapons.size(); i++){
+        }else if(randomNumber > 6){
+            if(refWeapon.currentWeapon.isEmpty()){
 
                 player.setWeaponName(refWeapon.weapons.get(0).getWeaponName());
                 player.setPlayerAttack(refWeapon.weapons.get(0).getHitPoints());
 
-                if(player.getWeaponName().length() < 0){
-                    
+                refWeapon.currentWeapon.add(refWeapon.weapons.get(0));
+                System.out.println("You found a weapon! You found: " + player.getWeaponName());
+
+            }else{
+                for(int i = 0; i < refWeapon.weapons.size(); i++){
+                    if(refWeapon.currentWeapon.get(0).getWeaponRank() == i){
+
+                        refWeapon.currentWeapon.remove(0);
+                        refWeapon.currentWeapon.add(refWeapon.weapons.get(i+1));
+
+                        player.setWeaponName(refWeapon.currentWeapon.get(0).getWeaponName());
+                        player.setPlayerAttack(refWeapon.currentWeapon.get(0).getHitPoints());
+
+                        System.out.println("You found a weapon! You found: " + player.getWeaponName());
+
+                        break;
+                    }
                 }
             }
-
-                player.setWeaponName(refWeapon.weapons.get(0).getWeaponName());
-                player.setPlayerAttack(refWeapon.weapons.get(0).getHitPoints());
         }
     }
 }
