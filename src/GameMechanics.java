@@ -39,6 +39,7 @@ public class GameMechanics {
         randVertical = randVertical + checkWallsForLoot(randVertical, randHorizontal);
         randHorizontal = randHorizontal + checkWallsForLoot(randVertical, randHorizontal);
 
+
         int vertical = verticalInput - 2;
         int horizontal = 1;
 
@@ -76,6 +77,8 @@ public class GameMechanics {
                     if (winner(vertical, horizontal)) {
                         menu.menu();
                     }
+                    winner(vertical, horizontal);
+
                     if(vertical == 0 && horizontal == h- statsFrame -2){
                         game[vertical][horizontal] = position;
                     } else if (vertical == v - 1 || horizontal == 0 || vertical == 0 || horizontal == h - statsFrame -1) {
@@ -147,12 +150,19 @@ public class GameMechanics {
         }else{
             game[4][h - statsFrame] = " Horizontal: " + horizontal + "   ║";
         }
-        game[5][h - statsFrame] = " Weapon: " + player1.getWeaponName() + "║";
+        game[5][h - statsFrame] = " Weapon: " + player1.getWeaponName();
+
+
+
+
+
+        //game[5][h - player1.getWeaponName().length() - 9] = "║"; //the first one must get removed before it changes
+
     }
 
 
     public boolean winner(int vertical, int horizontal) {
-        if (vertical == 0 && horizontal == h- statsFrame -2) {
+        if (vertical == 0 && horizontal == 0) {
             System.out.println("You win!");
             return true;
         }

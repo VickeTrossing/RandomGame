@@ -11,10 +11,10 @@ public class Weapon {
     List<Weapon> weapons = new ArrayList<>();
     List<Weapon> currentWeapon = new ArrayList<>();
 
-    public Weapon(int hitPoints, String weaponName, int number) {
+    public Weapon(int hitPoints, String weaponName, int weaponRank) {
         this.hitPoints = hitPoints;
         this.weaponName = weaponName;
-        this.weaponRank = number;
+        this.weaponRank = weaponRank;
     }
 
     public Weapon(){}
@@ -36,10 +36,6 @@ public class Weapon {
 
     public int getWeaponRank() {
         return weaponRank;
-    }
-
-    public void setWeaponRank(int weaponRank) {
-        this.weaponRank = weaponRank;
     }
 
     public int getHitPoints() {

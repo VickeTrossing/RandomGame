@@ -25,6 +25,7 @@ public class Menu {
                 gameMechanics.updateGame(vertical, horizontal);
             }
             case 2 -> {
+
                 System.out.println("Set the size of the map.");
                 System.out.print("Vertical: ");
                 vertical = scan.nextInt();
