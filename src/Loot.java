@@ -7,7 +7,6 @@ public class Loot {
 
     public void loot(Player player){
         int randomNumber = random.nextInt(10);
-        System.out.println("Random number: " + randomNumber);
         refWeapon.weaponArray();
 
 
@@ -36,7 +35,6 @@ public class Loot {
 
         }
         System.out.println("You found a weapon! You found: " + player.getWeaponName());
-        System.out.println(refWeapon.currentWeapon);
 
         /*if(randomNumber <= 6){
 

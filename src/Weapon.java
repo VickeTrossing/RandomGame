@@ -28,7 +28,7 @@ public class Weapon {
 
     public void weaponArray(){
         weapons.add(new Weapon((int) (player.getPlayerAttack()*1.5), "Dagger", 1));
-        weapons.add(new Weapon (player.getPlayerAttack()*2, "Axe", 2));
+        weapons.add(new Weapon (player.getPlayerAttack()*2, "Old axe", 2));
         weapons.add(new Weapon ((int) (player.getPlayerAttack()*2.5), "Sword", 3));
         weapons.add(new Weapon (player.getPlayerAttack()*3, "Dane axe", 4));
     }

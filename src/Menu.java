@@ -50,6 +50,10 @@ public class Menu {
                 scan.nextLine();
                 menu();
             }
+
+            default -> {
+                System.out.println("Only use the numbers on the menu"); menu();
+            }
         }
     }
 }
