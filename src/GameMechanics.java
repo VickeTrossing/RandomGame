@@ -14,11 +14,11 @@ public class GameMechanics {
     MapGenerator mapGenerator = new MapGenerator();
     Player player1 = new Player();
     Weapon ref = Weapon.getInstance();
+    StatFrame statFrame = new StatFrame();
 
     int v;
     int h;
     int statsFrame = 18;
-    int length;
     String position = "*";
     String enemyChar = "#";
     String lootChar = "m";
@@ -50,7 +50,6 @@ public class GameMechanics {
         movePlayer();
 
         while (stillPlaying) {
-
             game[randVertical][randHorizontal] = lootChar;
             game[enemy.enemyVertical][enemy.enemyHorizontal] = " ";
             enemy.enemyMove(vertical, horizontal);
@@ -125,56 +124,24 @@ public class GameMechanics {
                 loot.loot(player1);
                 playerStats(vertical, horizontal);
             }
-            movePlayer();
             playerStats(vertical, horizontal);
+            movePlayer();
+
         }
     }
-
 
     public void playerStats(int vertical, int horizontal) {
-
-        game[1][h - statsFrame] = " Your position: " + " ║";
-
-        if (vertical >= 10) {
-            game[3][h - statsFrame] = " Vertical: " + vertical + "    ║";
-        } else {
-            game[3][h - statsFrame] = " Vertical: " + vertical + "     ║";
-        }
-
-        if (horizontal >= 10) {
-            game[4][h - statsFrame] = " Horizontal: " + horizontal + "  ║";
-        } else {
-            game[4][h - statsFrame] = " Horizontal: " + horizontal + "   ║";
-        }
-        game[5][h - statsFrame] = " Weapon: " + player1.getWeaponName();
-
-        int x;
-        if (player1.getWeaponName().length() == 5) {
-
-
-            for (int i = 17; i < h - 1; i++) {
-                if (Objects.equals(game[5][i], "║") || Objects.equals(game[5][i], "")) {
-                    game[5][i] = " ";
-                }
-            }
-
-            game[5][21] = "║";
-
-        } else if (player1.getWeaponName().length() > 5) {
-
-            for (int i = 20; i < h - 1; i++) {
-                if (Objects.equals(game[5][i], "║")) {
-                    game[5][i] = "";
-                }
-            }
-            x = player1.getWeaponName().length() - 5;
-            game[5][21 - x] = "║";
-        }
+        statFrame.playerStats(player1.getWeaponName().length(), horizontal, game, h, statsFrame, vertical, player1);
     }
+    
 
     public boolean winner(int vertical, int horizontal) {
-        if (vertical == 0 && horizontal == 0) {
-            System.out.println("You win!");
+        if (vertical == 0 && horizontal == h - statsFrame - 3) {
+            game[vertical][h - statsFrame - 3] = position;
+            movePlayer();
+            System.out.println("\nYou win!");
+            System.out.println("Press enter to go to main menu");
+            scan.nextLine();
             return true;
         }
         return false;
