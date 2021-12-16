@@ -17,14 +17,14 @@ public class Menu {
         System.out.println("1. Start game\n2. Set map size\n3. Random maps\n4. Instructions ");
         System.out.print("Choose: ");
 
-        int choice = scan.nextInt();
+        String choice = scan.nextLine();
 
         switch (choice){
 
-            case 1 -> {
+            case "1" -> {
                 gameMechanics.updateGame(vertical, horizontal);
             }
-            case 2 -> {
+            case "2" -> {
 
                 System.out.println("Set the size of the map.");
                 System.out.print("Vertical: ");
@@ -39,11 +39,11 @@ public class Menu {
                 gameMechanics.updateGame(vertical, horizontal);
             }
 
-            case 3 -> {
+            case "3" -> {
                 gameMechanics.updateGame(mapGenerator.generateMapVertical(), mapGenerator.generateMapHorizontal());
             }
 
-            case 4 -> {
+            case "4" -> {
                 System.out.println("Instructions: \n\nUse the keys WASD to move. W = up, A = left, S = down, D = right.\nPress the key you want and then press enter.");
                 System.out.println("* = Your position\n# = Enemy position\nm = Chest full of loot\n\nPress enter to return to main menu");
                 scan.nextLine();

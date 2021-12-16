@@ -15,6 +15,7 @@ public class GameMechanics {
     Player player1 = new Player();
     Weapon ref = Weapon.getInstance();
     StatFrame statFrame = new StatFrame();
+    MovementInput movementInput = new MovementInput();
 
     int v;
     int h;
@@ -28,7 +29,6 @@ public class GameMechanics {
         v = verticalInput;
         h = horizontalInput + statsFrame;
         game = new String[v][h];
-        Menu menu = new Menu();
         ref.weaponArray();
 
         game = mapGenerator.generateMap(game, v, h, statsFrame);
@@ -54,8 +54,6 @@ public class GameMechanics {
             game[enemy.enemyVertical][enemy.enemyHorizontal] = " ";
             enemy.enemyMove(vertical, horizontal);
             game[enemy.enemyVertical][enemy.enemyHorizontal] = enemyChar;
-            System.out.println();
-            System.out.print("Your move: ");
 
             if (Objects.equals(game[vertical][horizontal], game[enemy.enemyVertical][enemy.enemyHorizontal])) {
                 fight.fightLogic();
@@ -67,57 +65,19 @@ public class GameMechanics {
 
             String move = scan.nextLine().toLowerCase();
 
-            switch (move) {
-                case "w" -> {
-                    game[vertical][horizontal] = " ";
-                    --vertical;
-                    if (winner(vertical, horizontal)) {
-                        menu.menu();
-                    }
-                    winner(vertical, horizontal);
 
-                    if (vertical == 0 && horizontal == h - statsFrame - 2) {
-                        game[vertical][horizontal] = position;
-                    } else if (vertical == v - 1 || horizontal == 0 || vertical == 0 || horizontal == h - statsFrame - 1) {
-                        System.out.println("That's a wall");
-                        ++vertical;
-                    }
-                    game[vertical][horizontal] = position;
-                }
+            //Fix winner, add it to the if statement "if move equals w" 
 
-                case "s" -> {
-                    game[vertical][horizontal] = " ";
-                    ++vertical;
 
-                    if (vertical == v - 1 || horizontal == 0 || horizontal == h - 1) {
-                        System.out.println("That's a wall");
-                        --vertical;
-                    }
-                    game[vertical][horizontal] = position;
-                }
-
-                case "a" -> {
-                    game[vertical][horizontal] = " ";
-                    --horizontal;
-                    if (vertical == v - 1 || horizontal == 0 || vertical == 0 || horizontal == h - 1) {
-                        System.out.println("That's a wall");
-                        ++horizontal;
-                    }
-                    game[vertical][horizontal] = position;
-                }
-
-                case "d" -> {
-                    game[vertical][horizontal] = " ";
-                    ++horizontal;
-                    if (vertical == v - 1 || vertical == 0 || horizontal == h - statsFrame - 2) {
-                        System.out.println("That's a wall");
-                        --horizontal;
-                    }
-                    game[vertical][horizontal] = position;
-                }
-                case "x" -> stillPlaying = false;
-                default -> System.out.println("only use 'WASD' to move");
+            if (move.equals("w") || move.equals("s")) {
+                game[vertical][horizontal] = " ";
+                vertical = movementInput.movementInput(move, vertical, horizontal, h, v, statsFrame, game, position);
+            } else if (move.equals("a") || move.equals("d")) {
+                game[vertical][horizontal] = " ";
+                horizontal = movementInput.movementInput(move, vertical, horizontal, h, v, statsFrame, game, position);
             }
+
+            game[vertical][horizontal] = position;
 
             if (Objects.equals(game[vertical][horizontal], game[randVertical][randHorizontal])) {
                 System.out.println();
@@ -126,14 +86,13 @@ public class GameMechanics {
             }
             playerStats(vertical, horizontal);
             movePlayer();
-
+            System.out.println("Vertical: " + vertical + "Horizontal: " + horizontal);
         }
     }
 
     public void playerStats(int vertical, int horizontal) {
         statFrame.playerStats(player1.getWeaponName().length(), horizontal, game, h, statsFrame, vertical, player1);
     }
-    
 
     public boolean winner(int vertical, int horizontal) {
         if (vertical == 0 && horizontal == h - statsFrame - 3) {
@@ -154,6 +113,7 @@ public class GameMechanics {
                 System.out.print(string);
             }
         }
+        System.out.print("\nYour move: ");
     }
 
     public int checkWallsForLoot(int randVertical, int randHorizontal) {
