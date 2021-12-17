@@ -5,17 +5,16 @@ public class Loot {
     Random random = new Random();
     Weapon refWeapon = Weapon.getInstance();
 
-    public void loot(Player player){
+    public String loot(Player player){
         int randomNumber = random.nextInt(10);
         refWeapon.weaponArray();
-        System.out.println("Random number: " + randomNumber);
-
 
         if(randomNumber <= 6){
 
             int extraAttack = random.nextInt(19)+1;
             player.setPlayerAttack(player.getPlayerAttack()+extraAttack);
-            System.out.println("You found loot! Your attack grows by: " + extraAttack + " points!");
+            return "You found loot! Your attack grows by: " + extraAttack + " points!";
+            //System.out.println("You found loot! Your attack grows by: " + extraAttack + " points!");
 
         }else{
             if(refWeapon.currentWeapon.isEmpty()){
@@ -51,7 +50,8 @@ public class Loot {
 
                 }
             }
-            System.out.println("You found a weapon! You found: " + player.getWeaponName());
-        }
+            //System.out.println("You found a weapon! You found: " + player.getWeaponName());
+            return "You found a weapon! You found: " + player.getWeaponName();
+             }
         }
     }

@@ -1,20 +1,20 @@
 public class MovementInput {
 
-    public int movementInput(String input, int vertical, int horizontal, int totalHorizontal, int totalVertical, int statFrameSize, String[][] mapArray, String position){
+    public int movementInput(String input, int vertical, int horizontal, int totalHorizontal, int totalVertical, int statFrameSize, String[][] mapArray){
         switch (input.toLowerCase()) {
             case "w" -> {
                 mapArray[vertical][horizontal] = " ";
                 --vertical;
 
-                if (vertical == 0 && horizontal == horizontal - statFrameSize - 2) {
-                    mapArray[vertical][horizontal] = position;
+                if (vertical == 0 && horizontal == totalHorizontal - statFrameSize - 3) {
+                    return vertical;
                 }
-                else if(vertical == totalVertical - 1 || horizontal == 0 || vertical == 0 || horizontal == horizontal - statFrameSize - 1){
+
+                if(vertical == totalVertical - 1 || horizontal == 0 || vertical == 0 || horizontal == horizontal - statFrameSize - 1){
                     System.out.println("That's a wall");
                     ++vertical;
                 }
                 return vertical;
-
             }
 
             case "s" -> {
@@ -26,7 +26,6 @@ public class MovementInput {
                     --vertical;
                 }
                 return vertical;
-
             }
 
             case "a" -> {
@@ -38,21 +37,18 @@ public class MovementInput {
                     ++horizontal;
                 }
                 return horizontal;
-
             }
 
             case "d" -> {
                 mapArray[vertical][horizontal] = " ";
                 ++horizontal;
 
-                if(vertical == totalVertical - 1 || vertical == 0 || horizontal == totalHorizontal - 1){
+                if(vertical == totalVertical - 1 || vertical == 0 || horizontal == totalHorizontal - statFrameSize - 2){
                     System.out.println("That's a wall");
                     --horizontal;
                 }
                 return horizontal;
-
             }
-
             default -> System.out.println("only use 'WASD' to move");
         }
         return 0;

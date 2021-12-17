@@ -26,6 +26,7 @@ public class GameMechanics {
     boolean stillPlaying = true;
 
     public void updateGame(int verticalInput, int horizontalInput) {
+        Menu menu = new Menu();
         v = verticalInput;
         h = horizontalInput + statsFrame;
         game = new String[v][h];
@@ -44,10 +45,10 @@ public class GameMechanics {
         int horizontal = 1;
 
         playerStats(vertical, horizontal);
-
         game[vertical][horizontal] = position;
 
         movePlayer();
+        System.out.print("\nYour move: ");
 
         while (stillPlaying) {
             game[randVertical][randHorizontal] = lootChar;
@@ -61,20 +62,21 @@ public class GameMechanics {
                 enemy.enemyHorizontal = 1;
                 game[vertical][horizontal] = position;
                 movePlayer();
+                System.out.print("\nYour move: ");
             }
 
             String move = scan.nextLine().toLowerCase();
 
-
-            //Fix winner, add it to the if statement "if move equals w" 
-
-
             if (move.equals("w") || move.equals("s")) {
+
                 game[vertical][horizontal] = " ";
-                vertical = movementInput.movementInput(move, vertical, horizontal, h, v, statsFrame, game, position);
+                vertical = movementInput.movementInput(move, vertical, horizontal, h, v, statsFrame, game);
+                if(winner(vertical, horizontal)){
+                    menu.menu();
+                }
             } else if (move.equals("a") || move.equals("d")) {
                 game[vertical][horizontal] = " ";
-                horizontal = movementInput.movementInput(move, vertical, horizontal, h, v, statsFrame, game, position);
+                horizontal = movementInput.movementInput(move, vertical, horizontal, h, v, statsFrame, game);
             }
 
             game[vertical][horizontal] = position;
@@ -83,10 +85,14 @@ public class GameMechanics {
                 System.out.println();
                 loot.loot(player1);
                 playerStats(vertical, horizontal);
+                movePlayer();
+                System.out.println("\nGame says: " + loot.loot(player1));
+                System.out.print("\nYour move: ");
+            }else{
+                playerStats(vertical, horizontal);
+                movePlayer();
+                System.out.print("\nYour move: ");
             }
-            playerStats(vertical, horizontal);
-            movePlayer();
-            System.out.println("Vertical: " + vertical + "Horizontal: " + horizontal);
         }
     }
 
@@ -113,7 +119,6 @@ public class GameMechanics {
                 System.out.print(string);
             }
         }
-        System.out.print("\nYour move: ");
     }
 
     public int checkWallsForLoot(int randVertical, int randHorizontal) {
