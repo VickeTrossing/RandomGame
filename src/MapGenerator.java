@@ -4,7 +4,6 @@ public class MapGenerator {
     Random random = new Random();
 
     public String[][] generateMap(String[][] mapArray, int v, int h, int hStats) {
-
         for (int i = 0; i < mapArray.length; i++) {
             mapArray[i][0] = "║";
             mapArray[i][(h-hStats)-2] = "║";
@@ -17,10 +16,9 @@ public class MapGenerator {
             mapArray[v - 1][0] = "╚";
         }
 
-
         for(int i = 0; i < mapArray.length; i++){
             mapArray[i][h-hStats-1] = "║";
-            if(i == 1 || i == 3 || i == 4 || i == 5){
+            if(i == 1 || i == 3 || i == 4 || i == 5 || i == 6){
                 continue;
             }
             mapArray[i][h-1] = "║";
@@ -41,7 +39,6 @@ public class MapGenerator {
             mapArray[2][h-1] = "╣";
         }
 
-
         for(int i = 0; i < mapArray.length; i++){
             for (int j = 0; j < mapArray[i].length; j++){
                 if(mapArray[i][j] == null){
@@ -51,7 +48,6 @@ public class MapGenerator {
         }
         return mapArray;
     }
-
 
     public int generateMapVertical(){
         return random.nextInt(21)+9;

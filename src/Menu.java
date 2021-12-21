@@ -2,17 +2,14 @@ import java.util.Random;
 import java.util.Scanner;
 
 public class Menu {
-
     Scanner scan = new Scanner(System.in);
     GameMechanics gameMechanics = new GameMechanics();
     MapGenerator mapGenerator = new MapGenerator();
     int vertical = 8;
     int horizontal = 17;
-    Player player = new Player();
 
     public void menu(){
-
-        System.out.println("Welcome to [game name]!\n");
+        System.out.println("\nWelcome to [game name]!\n");
         System.out.println("Menu: ");
         System.out.println("1. Start game\n2. Set map size\n3. Random maps\n4. Instructions ");
         System.out.print("Choose: ");
@@ -20,12 +17,9 @@ public class Menu {
         String choice = scan.nextLine();
 
         switch (choice){
+            case "1" -> gameMechanics.updateGame(vertical, horizontal);
 
-            case "1" -> {
-                gameMechanics.updateGame(vertical, horizontal);
-            }
             case "2" -> {
-
                 System.out.println("Set the size of the map.");
                 System.out.print("Vertical: ");
                 vertical = scan.nextInt();
@@ -52,7 +46,8 @@ public class Menu {
             }
 
             default -> {
-                System.out.println("Only use the numbers on the menu"); menu();
+                System.out.println("Only use the numbers on the menu");
+                menu();
             }
         }
     }

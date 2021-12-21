@@ -5,12 +5,9 @@ public class FightLogic {
 
     Random random = new Random();
     Scanner scan = new Scanner(System.in);
-    Player player = new Player();
      Enemy enemy = new Enemy();
 
-    public void fightLogic() {
-
-        GameMechanics gm = new GameMechanics();
+    public void fightLogic(Player player) {
         System.out.println();
         System.out.println("Oh no, the monster caught you! Fight for your life!");
         System.out.println("Press ENTER to start the fight!");
@@ -26,15 +23,16 @@ public class FightLogic {
             enemyHealth = enemyHealth - playerAttack;
             System.out.println("You attack! The monsters health is " + enemyHealth);
 
+            if(enemyHealth <= 0){
+                break;
+            }
+
             playerHealth = playerHealth - enemyAttack;
+            player.setPlayerHealth(playerHealth);
             System.out.println("The monster attacks you! Your health is " + playerHealth);
 
-            if(enemyHealth <= 0){
-                System.out.println("You win!");
-                break;
-            }else if(playerHealth <= 0){
+            if(playerHealth <= 0){
                 System.out.println("Oh no, you died! Try again");
-                gm.stillPlaying = false;
                 break;
             }
         }

@@ -24,8 +24,11 @@ public class GameMechanics {
     String enemyChar = "#";
     String lootChar = "m";
     boolean stillPlaying = true;
+    boolean isChestTrue = false;
+    boolean isEnemyTrue = true;
 
     public void updateGame(int verticalInput, int horizontalInput) {
+        System.out.println("ayy lmao");
         Menu menu = new Menu();
         v = verticalInput;
         h = horizontalInput + statsFrame;
@@ -34,12 +37,10 @@ public class GameMechanics {
 
         game = mapGenerator.generateMap(game, v, h, statsFrame);
 
-        //Random ints for the loot chest, based on the height and width of the map
         int randVertical = random.nextInt(v);
         int randHorizontal = random.nextInt(h - statsFrame - 2);
 
-        randVertical = randVertical + checkWallsForLoot(randVertical, randHorizontal);
-        randHorizontal = randHorizontal + checkWallsForLoot(randVertical, randHorizontal);
+        player1.setPlayerHealth(player1.getPlayerHealth());
 
         int vertical = verticalInput - 2;
         int horizontal = 1;
@@ -51,18 +52,39 @@ public class GameMechanics {
         System.out.print("\nYour move: ");
 
         while (stillPlaying) {
-            game[randVertical][randHorizontal] = lootChar;
-            game[enemy.enemyVertical][enemy.enemyHorizontal] = " ";
-            enemy.enemyMove(vertical, horizontal);
-            game[enemy.enemyVertical][enemy.enemyHorizontal] = enemyChar;
+            if(!isChestTrue){
+                //Random ints for the loot chest, based on the height and width of the map
+                randVertical = randVertical + checkWallsForLoot(randVertical, randHorizontal);
+                randHorizontal = randHorizontal + checkWallsForLoot(randVertical, randHorizontal);
+                game[randVertical][randHorizontal] = lootChar;
+                isChestTrue = true;
+            }
+
+            if(isEnemyTrue){
+                game[enemy.enemyVertical][enemy.enemyHorizontal] = " ";
+                enemy.enemyMove(vertical, horizontal);
+                game[enemy.enemyVertical][enemy.enemyHorizontal] = enemyChar;
+            }
+
 
             if (Objects.equals(game[vertical][horizontal], game[enemy.enemyVertical][enemy.enemyHorizontal])) {
-                fight.fightLogic();
-                enemy.enemyVertical = v - 2;
-                enemy.enemyHorizontal = 1;
+                fight.fightLogic(player1);
+                //enemy.enemyVertical = v - 2;
+                //enemy.enemyHorizontal = 1;
                 game[vertical][horizontal] = position;
-                movePlayer();
-                System.out.print("\nYour move: ");
+
+                System.out.print("\nPress ENTER to continue");
+                scan.nextLine();
+
+                if(player1.getPlayerHealth() <= 0){
+                    stillPlaying = false;
+                    menu.menu();
+                }else{
+                    playerStats(vertical, horizontal);
+                    movePlayer();
+                    isEnemyTrue = false;
+                    System.out.print("\nYour move: ");
+                }
             }
 
             String move = scan.nextLine().toLowerCase();
@@ -83,11 +105,11 @@ public class GameMechanics {
 
             if (Objects.equals(game[vertical][horizontal], game[randVertical][randHorizontal])) {
                 System.out.println();
-                loot.loot(player1);
                 playerStats(vertical, horizontal);
                 movePlayer();
                 System.out.println("\nGame says: " + loot.loot(player1));
                 System.out.print("\nYour move: ");
+                isChestTrue = false;
             }else{
                 playerStats(vertical, horizontal);
                 movePlayer();
@@ -104,6 +126,14 @@ public class GameMechanics {
         if (vertical == 0 && horizontal == h - statsFrame - 3) {
             game[vertical][h - statsFrame - 3] = position;
             movePlayer();
+            int rounds = 3;
+
+            for(int i = 0; i < rounds; ++i){
+                isChestTrue = false;
+                isEnemyTrue = true;
+                updateGame(8, 17);
+            }
+
             System.out.println("\nYou win!");
             System.out.println("Press enter to go to main menu");
             scan.nextLine();
