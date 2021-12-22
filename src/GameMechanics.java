@@ -20,15 +20,15 @@ public class GameMechanics {
     int v;
     int h;
     int statsFrame = 18;
+    int rounds = 2;
     String position = "*";
     String enemyChar = "#";
     String lootChar = "m";
     boolean stillPlaying = true;
-    boolean isChestTrue = false;
+    boolean isChestTrue = true;
     boolean isEnemyTrue = true;
 
     public void updateGame(int verticalInput, int horizontalInput) {
-        System.out.println("ayy lmao");
         Menu menu = new Menu();
         v = verticalInput;
         h = horizontalInput + statsFrame;
@@ -52,12 +52,12 @@ public class GameMechanics {
         System.out.print("\nYour move: ");
 
         while (stillPlaying) {
-            if(!isChestTrue){
+            if(isChestTrue){
                 //Random ints for the loot chest, based on the height and width of the map
                 randVertical = randVertical + checkWallsForLoot(randVertical, randHorizontal);
                 randHorizontal = randHorizontal + checkWallsForLoot(randVertical, randHorizontal);
                 game[randVertical][randHorizontal] = lootChar;
-                isChestTrue = true;
+                //isChestTrue = false;
             }
 
             if(isEnemyTrue){
@@ -67,12 +67,9 @@ public class GameMechanics {
             }
 
 
-            if (Objects.equals(game[vertical][horizontal], game[enemy.enemyVertical][enemy.enemyHorizontal])) {
+            if (Objects.equals(game[vertical][horizontal], game[enemy.enemyVertical][enemy.enemyHorizontal]) && isEnemyTrue) {
                 fight.fightLogic(player1);
-                //enemy.enemyVertical = v - 2;
-                //enemy.enemyHorizontal = 1;
                 game[vertical][horizontal] = position;
-
                 System.out.print("\nPress ENTER to continue");
                 scan.nextLine();
 
@@ -103,11 +100,13 @@ public class GameMechanics {
 
             game[vertical][horizontal] = position;
 
-            if (Objects.equals(game[vertical][horizontal], game[randVertical][randHorizontal])) {
+            if (Objects.equals(game[vertical][horizontal], game[randVertical][randHorizontal]) && isChestTrue) {
                 System.out.println();
                 playerStats(vertical, horizontal);
                 movePlayer();
-                System.out.println("\nGame says: " + loot.loot(player1));
+                //System.out.println("\nGame says: " + loot.loot(player1));
+                String message = "Game says: " + loot.loot(player1);
+                statFrame.messageFromGame(message, h);
                 System.out.print("\nYour move: ");
                 isChestTrue = false;
             }else{
@@ -126,10 +125,9 @@ public class GameMechanics {
         if (vertical == 0 && horizontal == h - statsFrame - 3) {
             game[vertical][h - statsFrame - 3] = position;
             movePlayer();
-            int rounds = 3;
 
             for(int i = 0; i < rounds; ++i){
-                isChestTrue = false;
+                isChestTrue = true;
                 isEnemyTrue = true;
                 updateGame(8, 17);
             }

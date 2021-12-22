@@ -2,7 +2,7 @@ import java.util.Objects;
 
 public class StatFrame {
     public void playerStats(int nameLength, int horizontalLength, String[][] mapArray, int totalHorizontal, int statFrameSize, int verticalLength, Player player){
-        mapArray[1][totalHorizontal - statFrameSize] = " Your position: " + " ║";
+        mapArray[1][totalHorizontal - statFrameSize] = "   Your stats: " + "  ║";
 
         if(verticalLength >= 10){
             mapArray[3][totalHorizontal - statFrameSize] = " Vertical: " + verticalLength + "    ║";
@@ -37,8 +37,6 @@ public class StatFrame {
                     mapArray[5][i] = "";
                 }
             }
-
-
             x = nameLength - 5;
             mapArray[5][21 - x] = "║";
             mapArray[6][21 - x] = "║";
@@ -62,5 +60,54 @@ public class StatFrame {
         }
 
 
+    }
+
+    public void messageFromGame(String  message, int horizontalLength){
+
+        int horizontal = message.length() + 3;
+        int test = message.length() + horizontalLength;
+
+        String[][]  messageFrame = new String[3][horizontal];
+
+
+
+
+        for(int i = 0; i < horizontal; i++){
+            messageFrame[0][i] = "═";
+            messageFrame[2][i] = "═";
+
+            messageFrame[0][0] = "╔";
+            messageFrame[2][0] = "╚";
+            messageFrame[0][horizontal-1] = "╗";
+            messageFrame[2][horizontal-1] = "╝";
+        }
+
+        messageFrame[1][0] = "║";
+
+        messageFrame[1][1] = message;
+
+        for(int i = 0; i < messageFrame.length; i++){
+            for (int j = 0; j < messageFrame[i].length; j++){
+                if(messageFrame[i][j] == null){
+                    messageFrame[i][j] = " ";
+                }
+            }
+        }
+
+        messageFrame[1][3] = "║";
+
+        for(int i = 4; i < message.length(); i++){
+            if(Objects.equals(messageFrame[1][i], "║")){
+                messageFrame[1][i] = "";
+            }
+        }
+
+
+        for (String[] strings : messageFrame) {
+            System.out.println();
+            for (String string : strings) {
+                System.out.print(string);
+            }
+        }
     }
 }
