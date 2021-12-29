@@ -29,9 +29,7 @@ public class StatFrame {
             }
             mapArray[5][21] = "║";
 
-
         } else if(nameLength > 5){
-
             for(int i = 20; i < totalHorizontal - 1; i++){
                 if(Objects.equals(mapArray[5][i], "║") || Objects.equals(mapArray[6][i], "║")){
                     mapArray[5][i] = "";
@@ -41,7 +39,6 @@ public class StatFrame {
             mapArray[5][21 - x] = "║";
             mapArray[6][21 - x] = "║";
         }
-
 
         for(int i = 19; i < totalHorizontal - 1; i++){
             if(Objects.equals(mapArray[6][i], "║") || Objects.equals(mapArray[6][i], "")){
@@ -58,24 +55,15 @@ public class StatFrame {
             mapArray[6][23] = " ";
             mapArray[6][24] = "║";
         }
-
-
     }
 
-    public void messageFromGame(String  message, int horizontalLength){
-
+    public void messageFromGame(String message){
         int horizontal = message.length() + 3;
-        int test = message.length() + horizontalLength;
-
         String[][]  messageFrame = new String[3][horizontal];
-
-
-
 
         for(int i = 0; i < horizontal; i++){
             messageFrame[0][i] = "═";
             messageFrame[2][i] = "═";
-
             messageFrame[0][0] = "╔";
             messageFrame[2][0] = "╚";
             messageFrame[0][horizontal-1] = "╗";
@@ -83,7 +71,6 @@ public class StatFrame {
         }
 
         messageFrame[1][0] = "║";
-
         messageFrame[1][1] = message;
 
         for(int i = 0; i < messageFrame.length; i++){
@@ -101,7 +88,6 @@ public class StatFrame {
                 messageFrame[1][i] = "";
             }
         }
-
 
         for (String[] strings : messageFrame) {
             System.out.println();

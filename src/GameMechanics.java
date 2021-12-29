@@ -27,6 +27,7 @@ public class GameMechanics {
     boolean stillPlaying = true;
     boolean isChestTrue = true;
     boolean isEnemyTrue = true;
+    boolean firstGame = true;
 
     public void updateGame(int verticalInput, int horizontalInput) {
         Menu menu = new Menu();
@@ -48,8 +49,14 @@ public class GameMechanics {
         playerStats(vertical, horizontal);
         game[vertical][horizontal] = position;
 
-        movePlayer();
-        System.out.print("\nYour move: ");
+        if(firstGame){
+            System.out.print("""
+
+                    You find yourself in a cave, you need to find the way out!
+                    Press ENTER to start the game.""");
+        }
+
+        firstGame = false;
 
         while (stillPlaying) {
             if(isChestTrue){
@@ -57,7 +64,6 @@ public class GameMechanics {
                 randVertical = randVertical + checkWallsForLoot(randVertical, randHorizontal);
                 randHorizontal = randHorizontal + checkWallsForLoot(randVertical, randHorizontal);
                 game[randVertical][randHorizontal] = lootChar;
-                //isChestTrue = false;
             }
 
             if(isEnemyTrue){
@@ -65,7 +71,6 @@ public class GameMechanics {
                 enemy.enemyMove(vertical, horizontal);
                 game[enemy.enemyVertical][enemy.enemyHorizontal] = enemyChar;
             }
-
 
             if (Objects.equals(game[vertical][horizontal], game[enemy.enemyVertical][enemy.enemyHorizontal]) && isEnemyTrue) {
                 fight.fightLogic(player1);
@@ -80,6 +85,7 @@ public class GameMechanics {
                     playerStats(vertical, horizontal);
                     movePlayer();
                     isEnemyTrue = false;
+                    System.out.println("You slayed the monster!");
                     System.out.print("\nYour move: ");
                 }
             }
@@ -87,12 +93,11 @@ public class GameMechanics {
             String move = scan.nextLine().toLowerCase();
 
             if (move.equals("w") || move.equals("s")) {
-
                 game[vertical][horizontal] = " ";
                 vertical = movementInput.movementInput(move, vertical, horizontal, h, v, statsFrame, game);
-                if(winner(vertical, horizontal)){
-                    menu.menu();
-                }
+
+                if(winner(vertical, horizontal)) menu.menu();
+
             } else if (move.equals("a") || move.equals("d")) {
                 game[vertical][horizontal] = " ";
                 horizontal = movementInput.movementInput(move, vertical, horizontal, h, v, statsFrame, game);
@@ -104,9 +109,8 @@ public class GameMechanics {
                 System.out.println();
                 playerStats(vertical, horizontal);
                 movePlayer();
-                //System.out.println("\nGame says: " + loot.loot(player1));
                 String message = "Game says: " + loot.loot(player1);
-                statFrame.messageFromGame(message, h);
+                statFrame.messageFromGame(message);
                 System.out.print("\nYour move: ");
                 isChestTrue = false;
             }else{

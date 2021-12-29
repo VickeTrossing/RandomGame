@@ -1,3 +1,4 @@
+import java.util.Objects;
 import java.util.Random;
 import java.util.Scanner;
 
@@ -20,8 +21,29 @@ public class FightLogic {
             int enemyAttack = enemy.getEnemyAttack();
             int playerAttack = player.getPlayerAttack();
 
-            enemyHealth = enemyHealth - playerAttack;
-            System.out.println("You attack! The monsters health is " + enemyHealth);
+            System.out.println("Press A to strike, press S to get the chance to do a special attack!");
+            String attack = scan.nextLine();
+
+            if(Objects.equals(attack.toLowerCase(), "s")){
+                int specialAttack = random.nextInt(10);
+
+                if(specialAttack >= 5){
+
+                    if(enemyHealth > 50){
+                        playerAttack = enemyHealth/2;
+                    }else{
+                        playerAttack = 20;
+                    }
+
+                    enemyHealth = enemyHealth - playerAttack;
+                    System.out.println("You do a special attack! The monsters health is " + enemyHealth);
+                }else{
+                    System.out.println("Your attack missed!");
+                }
+            }else{
+                enemyHealth = enemyHealth - playerAttack;
+                System.out.println("You attack! The monsters health is " + enemyHealth);
+            }
 
             if(enemyHealth <= 0){
                 break;
