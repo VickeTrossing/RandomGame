@@ -1,4 +1,3 @@
-import java.util.Random;
 import java.util.Scanner;
 
 public class Menu {
@@ -33,14 +32,11 @@ public class Menu {
                 gameMechanics.updateGame(vertical, horizontal);
             }
 
-            case "3" -> {
-                gameMechanics.updateGame(mapGenerator.generateMapVertical(), mapGenerator.generateMapHorizontal());
-            }
+            case "3" -> gameMechanics.updateGame(mapGenerator.generateMapVertical(), mapGenerator.generateMapHorizontal());
 
             case "4" -> {
                 System.out.println("Instructions: \n\nUse the keys WASD to move. W = up, A = left, S = down, D = right.\nPress the key you want and then press enter.");
                 System.out.println("* = Your position\n# = Enemy position\nm = Chest full of loot\n\nPress enter to return to main menu");
-                scan.nextLine();
                 scan.nextLine();
                 menu();
             }

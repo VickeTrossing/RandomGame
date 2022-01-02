@@ -3,7 +3,7 @@ import java.util.Random;
 public class MapGenerator {
     Random random = new Random();
 
-    public String[][] generateMap(String[][] mapArray, int v, int h, int hStats) {
+    public String[][] generateMap(String[][] mapArray, int v, int h, int hStats, boolean firstRound) {
         for (int i = 0; i < mapArray.length; i++) {
             mapArray[i][0] = "║";
             mapArray[i][(h-hStats)-2] = "║";
@@ -37,7 +37,13 @@ public class MapGenerator {
             mapArray[2][h-hStats-1] = "╠";
             mapArray[2][i] = "═";
             mapArray[2][h-1] = "╣";
+
+            if(!firstRound){
+                mapArray[v-1][0] = "║";
+                mapArray[v-1][1] = "╔";
+            }
         }
+
 
         for(int i = 0; i < mapArray.length; i++){
             for (int j = 0; j < mapArray[i].length; j++){

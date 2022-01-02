@@ -24,9 +24,11 @@ public class GameMechanics {
     String position = "*";
     String enemyChar = "#";
     String lootChar = "m";
+    String healLoot = "♥";
     boolean stillPlaying = true;
     boolean isChestTrue = true;
     boolean isEnemyTrue = true;
+    boolean isHealthLootTrue = true;
     boolean firstGame = true;
 
     public void updateGame(int verticalInput, int horizontalInput) {
@@ -36,10 +38,13 @@ public class GameMechanics {
         game = new String[v][h];
         ref.weaponArray();
 
-        game = mapGenerator.generateMap(game, v, h, statsFrame);
+        game = mapGenerator.generateMap(game, v, h, statsFrame, firstGame);
 
         int randVertical = random.nextInt(v);
         int randHorizontal = random.nextInt(h - statsFrame - 2);
+
+        int randVerticalForHealth = random.nextInt(v);
+        int randHorizontalForHealth = random.nextInt(h - statsFrame - 2);
 
         player1.setPlayerHealth(player1.getPlayerHealth());
 
@@ -72,6 +77,12 @@ public class GameMechanics {
                 game[enemy.enemyVertical][enemy.enemyHorizontal] = enemyChar;
             }
 
+            if(isHealthLootTrue){
+                randVerticalForHealth = randVerticalForHealth + checkWallsForLoot(randVerticalForHealth, randHorizontalForHealth);
+                randHorizontalForHealth = randHorizontalForHealth + checkWallsForLoot(randVerticalForHealth, randHorizontalForHealth);
+                game[randVerticalForHealth][randHorizontalForHealth] = healLoot;
+            }
+
             if (Objects.equals(game[vertical][horizontal], game[enemy.enemyVertical][enemy.enemyHorizontal]) && isEnemyTrue) {
                 fight.fightLogic(player1);
                 game[vertical][horizontal] = position;
@@ -85,7 +96,7 @@ public class GameMechanics {
                     playerStats(vertical, horizontal);
                     movePlayer();
                     isEnemyTrue = false;
-                    System.out.println("You slayed the monster!");
+                    System.out.println("\nYou slayed the monster!");
                     System.out.print("\nYour move: ");
                 }
             }
@@ -104,6 +115,15 @@ public class GameMechanics {
             }
 
             game[vertical][horizontal] = position;
+
+            if(Objects.equals(game[randVerticalForHealth][randHorizontalForHealth], game[vertical][horizontal]) && isHealthLootTrue){
+                System.out.println();
+                playerStats(vertical, horizontal);
+                movePlayer();
+                statFrame.messageFromGame(loot.healLoot(player1));
+                System.out.print("\nYou move: ");
+                isHealthLootTrue = false;
+            }
 
             if (Objects.equals(game[vertical][horizontal], game[randVertical][randHorizontal]) && isChestTrue) {
                 System.out.println();
@@ -131,6 +151,8 @@ public class GameMechanics {
             movePlayer();
 
             for(int i = 0; i < rounds; ++i){
+                String message = " You survived the room! Press ENTER to go into the next room";
+                statFrame.messageFromGame(message);
                 isChestTrue = true;
                 isEnemyTrue = true;
                 updateGame(8, 17);

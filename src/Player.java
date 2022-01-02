@@ -2,21 +2,12 @@ import java.util.Random;
 
 public class Player {
 
-
    private int playerHealth = 100;
-   private int playerAttack;
-   private String weaponName = "Hands";
-   private Random random = new Random();
-
+    private String weaponName = "Hands";
+    int playerAttack;
+   private final Random random = new Random();
 
     public Player(){}
-
-    public Player(String weaponName) {
-        this.weaponName = weaponName;
-    }
-
-
-
 
     public String getWeaponName() {
         return weaponName;

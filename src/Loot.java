@@ -70,4 +70,27 @@ public class Loot {
         }
         return "0";
     }
+
+
+    public String healLoot(Player player){
+
+        int healPoints = 0;
+        int playerHealth = player.getPlayerHealth();
+
+        if(playerHealth >= 75){
+            healPoints = 25;
+        }else if(playerHealth >= 50){
+            healPoints = 50;
+        }else if(playerHealth >= 25){
+            healPoints = 75;
+        }else{
+            healPoints = 100;
+        }
+
+        int heal = random.nextInt(healPoints);
+
+        player.setPlayerHealth(playerHealth + heal);
+
+        return "You found health! You health grows by: " + heal + " points!";
+    }
 }
